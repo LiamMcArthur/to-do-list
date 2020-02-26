@@ -5,75 +5,33 @@ namespace Modules\ToDoList\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\ToDoList\Entities\ToDoList;
 
 class ToDoListController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get all items from the resource.
      * @return Response
      */
     public function index()
     {
-        return view('todolist::index');
+        $allToDoLists = ToDoList::all();
+        return response()->json($allToDoLists);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Delete the item from the database
+     * @param $id
      * @return Response
      */
-    public function create()
+    public function delete($id)
     {
-        return view('todolist::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        return view('todolist::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return view('todolist::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        $toDoList = ToDoList::find($id);
+        if ($toDoList) {
+            $toDoList->delete();
+            return response()->json(['Successfully deleted!']);
+        } else {
+            return response()->json(['This to-do list no longer exists.']);
+        }
     }
 }

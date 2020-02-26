@@ -11,6 +11,7 @@
 |
 */
 
-Route::prefix('todolist')->group(function() {
-    Route::get('/', 'ToDoListController@index');
+Route::prefix('to-do-list')->group(function() {
+    Route::get('/get-posts', 'ToDoListController@index');
+    Route::delete('/post/{id}', 'ToDoListController@delete');
 });
