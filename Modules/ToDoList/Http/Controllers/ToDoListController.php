@@ -20,6 +20,20 @@ class ToDoListController extends Controller
     }
 
     /**
+     * Store the item in the database
+     * @param Request $request
+     * @return void
+     */
+    public function store(Request $request)
+    {
+        if ($request->input('input')) {
+            ToDoList::create([
+                'content' => $request->input('input')
+            ]);
+        }
+    }
+
+    /**
      * Delete the item from the database
      * @param $id
      * @return Response
