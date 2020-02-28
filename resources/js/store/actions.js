@@ -16,6 +16,14 @@ let actions = {
             console.log(err)
         })
     },
+    fetchChecked({commit}) {
+        axios.get('/to-do-list/get-checked')
+            .then(res => {
+                commit('FETCH_CHECKED', res.data)
+            }).catch(err => {
+            console.log(err)
+        })
+    },
     deletePost({commit}, post) {
         axios.delete(`/to-do-list/post/${post}`)
             .then(res => {

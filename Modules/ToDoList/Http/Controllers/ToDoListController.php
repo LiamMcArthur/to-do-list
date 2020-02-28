@@ -20,6 +20,16 @@ class ToDoListController extends Controller
     }
 
     /**
+     * Get all checked item statuses
+     * @return Response
+     */
+    public function getCheckedItems()
+    {
+        $checkedItems = ToDoList::checked();
+        return $checkedItems->get()->pluck('id')->toArray();
+    }
+
+    /**
      * Store the item in the database
      * @param Request $request
      * @return void

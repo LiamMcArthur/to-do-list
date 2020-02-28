@@ -7,24 +7,15 @@
                     <md-input v-model="input"></md-input>
                     <md-button type="submit" class="md-raised md-primary">Add</md-button>
                 </md-field>
-                <md-list v-if="this.posts">
+                <md-list v-if="getAllToDoLists">
                     <md-subheader>To-Do List</md-subheader>
-                    <md-list-item v-for="(post, index) in this.posts" :key="index">
+                    <md-list-item v-for="(post, index) in getAllToDoLists" :key="index">
                         <md-checkbox v-model="list" :value="post.id" />
                         <span class="md-list-item-text">{{ post.content }}</span>
                     </md-list-item>
                 </md-list>
             </form>
         </div>
-<!--        <div class="c-to-do-list">-->
-<!--            <template v-if="getAllToDoLists">-->
-<!--                <div v-for="(post, index) in getAllToDoLists" :key="index" class="c-card">-->
-<!--                    <p>{{ post.title}}</p>-->
-<!--                    <p>{{ post.content}}</p>-->
-<!--                    <button @click="deletePost(post.id)">DELETE [X]</button>-->
-<!--                </div>-->
-<!--            </template>-->
-<!--        </div>-->
     </div>
 </template>
 
@@ -39,16 +30,19 @@
             }
         },
         mounted() {
-            this.$store.dispatch('fetchPosts')
+            this.$store.dispatch('fetchPosts');
         },
         methods: {
             createPost(post) {
-                this.$store.dispatch('createPost', {input: post})
-                this.$store.dispatch('fetchPosts')
+                this.$store.dispatch('createPost', {input: post});
+                this.$store.dispatch('fetchPosts');
             },
             deletePost(post) {
-                this.$store.dispatch('deletePost',post)
-            }
+                this.$store.dispatch('deletePost', post);
+            },
+            checkPosts(ids) {
+                console.warn(ids);
+            },
         },
         computed: {
             getAllToDoLists() {
@@ -58,8 +52,14 @@
                 return undefined;
             },
             ...mapGetters([
-                'posts'
+                'posts',
+                'checked'
             ])
+        },
+        watch: {
+            list: function (id) {
+                this.checkPosts(id);
+            }
         }
     }
 

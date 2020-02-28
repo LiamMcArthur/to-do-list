@@ -15,7 +15,6 @@ class CreateToDoListTable extends Migration
     {
         Schema::create('to_do_list', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title', 255);
             $table->text('content');
             $table->tinyInteger('status');
             $table->timestamps();

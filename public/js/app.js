@@ -1936,15 +1936,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1965,6 +1956,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deletePost: function deletePost(post) {
       this.$store.dispatch('deletePost', post);
+    },
+    checkPosts: function checkPosts(ids) {
+      console.warn(ids);
     }
   },
   computed: _objectSpread({
@@ -1975,7 +1969,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return undefined;
     }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['posts']))
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['posts', 'checked'])),
+  watch: {
+    list: function list(id) {
+      this.checkPosts(id);
+    }
+  }
 });
 
 /***/ }),
@@ -38025,13 +38024,13 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          this.posts
+          _vm.getAllToDoLists
             ? _c(
                 "md-list",
                 [
                   _c("md-subheader", [_vm._v("To-Do List")]),
                   _vm._v(" "),
-                  _vm._l(this.posts, function(post, index) {
+                  _vm._l(_vm.getAllToDoLists, function(post, index) {
                     return _c(
                       "md-list-item",
                       { key: index },
@@ -84373,8 +84372,16 @@ var actions = {
       console.log(err);
     });
   },
-  deletePost: function deletePost(_ref3, post) {
+  fetchChecked: function fetchChecked(_ref3) {
     var commit = _ref3.commit;
+    axios.get('/to-do-list/get-checked').then(function (res) {
+      commit('FETCH_CHECKED', res.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  },
+  deletePost: function deletePost(_ref4, post) {
+    var commit = _ref4.commit;
     axios["delete"]("/to-do-list/post/".concat(post)).then(function (res) {
       if (res.data === 'ok') commit('DELETE_POST', post);
     })["catch"](function (err) {
@@ -84398,6 +84405,9 @@ __webpack_require__.r(__webpack_exports__);
 var getters = {
   posts: function posts(state) {
     return state.posts;
+  },
+  checked: function checked(state) {
+    return state.checked;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (getters);
@@ -84451,6 +84461,9 @@ var mutations = {
   },
   FETCH_POSTS: function FETCH_POSTS(state, posts) {
     return state.posts = posts;
+  },
+  FETCH_CHECKED: function FETCH_CHECKED(state, checked) {
+    return state.checked = checked;
   },
   DELETE_POST: function DELETE_POST(state, post) {
     var index = state.posts.findIndex(function (item) {

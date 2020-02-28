@@ -8,4 +8,9 @@ class ToDoList extends Model
 {
     protected $table = 'to_do_list';
     protected $fillable = ['content'];
+
+    public function scopeChecked($query) {
+        return $query->where('status', 1);
+    }
+
 }

@@ -14,5 +14,6 @@
 Route::prefix('to-do-list')->group(function() {
     Route::post('/store', 'ToDoListController@store');
     Route::get('/get-posts', 'ToDoListController@index');
+    Route::get('/get-checked', 'ToDoListController@getCheckedItems');
     Route::delete('/post/{id}', 'ToDoListController@delete');
 });
