@@ -38019,7 +38019,7 @@ var render = function() {
           _c(
             "md-field",
             [
-              _c("label", [_vm._v("Initial Value")]),
+              _c("label", [_vm._v("Add item here...")]),
               _vm._v(" "),
               _c("md-input", {
                 model: {

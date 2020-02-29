@@ -3,7 +3,7 @@
         <div class="full-control">
             <form action="" @submit.prevent="createPost(input)">
                 <md-field>
-                    <label>Initial Value</label>
+                    <label>Add item here...</label>
                     <md-input v-model="input"></md-input>
                     <md-button type="submit" class="md-raised md-primary">Add</md-button>
                 </md-field>
