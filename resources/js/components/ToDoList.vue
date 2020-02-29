@@ -39,13 +39,16 @@
                     this.list = res.data;
                 }).catch(err => {
                 console.log(err)
-            })
+            });
 
         },
         methods: {
             createPost(post) {
                 this.$store.dispatch('createPost', {input: post});
-                this.$store.dispatch('fetchPosts');
+                this.$nextTick(() => {
+                    this.$store.dispatch('fetchPosts');
+                });
+
             },
             deletePost(post) {
                 this.$store.dispatch('deletePost', post);
@@ -64,6 +67,11 @@
             ])
         },
         watch: {
+            posts: function (posts) {
+                if (Object.values(posts)[0] === "") {
+                    this.$store.dispatch('fetchPosts');
+                }
+            },
             list: function (ids) {
                 if (ids && ids.length !== this.checked.length) {
                     this.$store.dispatch('updateChecked', {input: ids});

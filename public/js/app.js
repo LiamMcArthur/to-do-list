@@ -1958,10 +1958,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     createPost: function createPost(post) {
+      var _this2 = this;
+
       this.$store.dispatch('createPost', {
         input: post
       });
-      this.$store.dispatch('fetchPosts');
+      this.$nextTick(function () {
+        _this2.$store.dispatch('fetchPosts');
+      });
     },
     deletePost: function deletePost(post) {
       this.$store.dispatch('deletePost', post);
@@ -1977,6 +1981,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['posts', 'checked'])),
   watch: {
+    posts: function posts(_posts) {
+      if (Object.values(_posts)[0] === "") {
+        this.$store.dispatch('fetchPosts');
+      }
+    },
     list: function list(ids) {
       if (ids && ids.length !== this.checked.length) {
         this.$store.dispatch('updateChecked', {
