@@ -9,6 +9,7 @@
     </head>
     <body>
     <div id="app">
+        <h1>To-Do List</h1>
         <to-do-list></to-do-list>
     </div>
     <script src="{{mix('js/app.js')}}"></script>
