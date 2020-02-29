@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>To-Do List</title>
         <link rel="stylesheet" type="text/css" href="/css/app.css"/>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
     </head>
     <body>
     <div id="app">

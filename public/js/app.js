@@ -1936,6 +1936,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -38057,7 +38058,20 @@ var render = function() {
                         _vm._v(" "),
                         _c("span", { staticClass: "md-list-item-text" }, [
                           _vm._v(_vm._s(post.content))
-                        ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "md-button",
+                          {
+                            staticClass: "md-accent",
+                            on: {
+                              click: function($event) {
+                                return _vm.deletePost(post)
+                              }
+                            }
+                          },
+                          [_vm._v("Remove")]
+                        )
                       ],
                       1
                     )
@@ -84399,8 +84413,8 @@ var actions = {
   },
   deletePost: function deletePost(_ref5, post) {
     var commit = _ref5.commit;
-    axios["delete"]("/to-do-list/post/".concat(post)).then(function (res) {
-      if (res.data === 'ok') commit('DELETE_POST', post);
+    axios["delete"]("/to-do-list/remove/".concat(post.id)).then(function (res) {
+      commit('DELETE_POST', post);
     })["catch"](function (err) {
       console.log(err);
     });

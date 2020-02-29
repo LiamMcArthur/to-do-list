@@ -12,6 +12,7 @@
                     <md-list-item v-for="(post, index) in getAllToDoLists" :key="index">
                         <md-checkbox v-model="list" :value="post.id" />
                         <span class="md-list-item-text">{{ post.content }}</span>
+                        <md-button @click="deletePost(post)" class="md-accent">Remove</md-button>
                     </md-list-item>
                 </md-list>
             </form>

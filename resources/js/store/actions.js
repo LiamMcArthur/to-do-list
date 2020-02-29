@@ -33,10 +33,9 @@ let actions = {
         })
     },
     deletePost({commit}, post) {
-        axios.delete(`/to-do-list/post/${post}`)
+        axios.delete(`/to-do-list/remove/${post.id}`)
             .then(res => {
-                if (res.data === 'ok')
-                    commit('DELETE_POST', post)
+                commit('DELETE_POST', post)
             }).catch(err => {
             console.log(err)
         })
