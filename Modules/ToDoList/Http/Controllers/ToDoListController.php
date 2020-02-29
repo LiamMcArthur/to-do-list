@@ -30,6 +30,29 @@ class ToDoListController extends Controller
     }
 
     /**
+     * Update all checked item statuses
+     * @return Response
+     */
+    public function updateCheckedItems(Request $request)
+    {
+        $input = $request->input('input');
+
+        if ($input && count($input) > 0) {
+
+            // First, set status to 1 for all checked items
+            ToDoList::whereIn('id', $input)->update([
+                'status' => 1
+            ]);
+
+            // Then, set all other items to zero (unchecked)
+            ToDoList::whereNotIn('id', $input)->update([
+                'status' => 0
+            ]);
+
+        }
+    }
+
+    /**
      * Store the item in the database
      * @param Request $request
      * @return void

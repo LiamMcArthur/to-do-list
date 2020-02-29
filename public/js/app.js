@@ -1945,7 +1945,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.$store.dispatch('fetchPosts');
+    this.$store.dispatch('fetchChecked');
+    axios.get('/to-do-list/get-checked').then(function (res) {
+      _this.list = res.data;
+    })["catch"](function (err) {
+      console.log(err);
+    });
   },
   methods: {
     createPost: function createPost(post) {
@@ -1956,9 +1964,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deletePost: function deletePost(post) {
       this.$store.dispatch('deletePost', post);
-    },
-    checkPosts: function checkPosts(ids) {
-      console.warn(ids);
     }
   },
   computed: _objectSpread({
@@ -1971,8 +1976,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['posts', 'checked'])),
   watch: {
-    list: function list(id) {
-      this.checkPosts(id);
+    list: function list(ids) {
+      if (ids && ids.length !== this.checked.length) {
+        this.$store.dispatch('updateChecked', {
+          input: ids
+        });
+      }
     }
   }
 });
@@ -84380,8 +84389,16 @@ var actions = {
       console.log(err);
     });
   },
-  deletePost: function deletePost(_ref4, post) {
+  updateChecked: function updateChecked(_ref4, ids) {
     var commit = _ref4.commit;
+    axios.post('/to-do-list/update-checked', ids).then(function (res) {
+      commit('UPDATE_CHECKED', res.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  },
+  deletePost: function deletePost(_ref5, post) {
+    var commit = _ref5.commit;
     axios["delete"]("/to-do-list/post/".concat(post)).then(function (res) {
       if (res.data === 'ok') commit('DELETE_POST', post);
     })["catch"](function (err) {
@@ -84465,6 +84482,9 @@ var mutations = {
   FETCH_CHECKED: function FETCH_CHECKED(state, checked) {
     return state.checked = checked;
   },
+  UPDATE_CHECKED: function UPDATE_CHECKED(state, checked) {
+    return state.checked = checked;
+  },
   DELETE_POST: function DELETE_POST(state, post) {
     var index = state.posts.findIndex(function (item) {
       return item.id === post.id;
@@ -84486,7 +84506,8 @@ var mutations = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var state = {
-  posts: []
+  posts: [],
+  checked: []
 };
 /* harmony default export */ __webpack_exports__["default"] = (state);
 

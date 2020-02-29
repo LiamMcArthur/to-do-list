@@ -8,6 +8,9 @@ let mutations = {
     FETCH_CHECKED(state, checked) {
         return state.checked = checked
     },
+    UPDATE_CHECKED(state, checked) {
+        return state.checked = checked
+    },
     DELETE_POST(state, post) {
         let index = state.posts.findIndex(item => item.id === post.id)
         state.posts.splice(index, 1)

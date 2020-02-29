@@ -31,6 +31,15 @@
         },
         mounted() {
             this.$store.dispatch('fetchPosts');
+            this.$store.dispatch('fetchChecked');
+
+            axios.get('/to-do-list/get-checked')
+                .then(res => {
+                    this.list = res.data;
+                }).catch(err => {
+                console.log(err)
+            })
+
         },
         methods: {
             createPost(post) {
@@ -39,9 +48,6 @@
             },
             deletePost(post) {
                 this.$store.dispatch('deletePost', post);
-            },
-            checkPosts(ids) {
-                console.warn(ids);
             },
         },
         computed: {
@@ -57,9 +63,11 @@
             ])
         },
         watch: {
-            list: function (id) {
-                this.checkPosts(id);
-            }
+            list: function (ids) {
+                if (ids && ids.length !== this.checked.length) {
+                    this.$store.dispatch('updateChecked', {input: ids});
+                }
+            },
         }
     }
 

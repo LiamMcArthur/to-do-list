@@ -1,5 +1,6 @@
 let state = {
-    posts: []
+    posts: [],
+    checked: []
 };
 
 export default state

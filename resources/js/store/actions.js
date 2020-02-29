@@ -24,6 +24,14 @@ let actions = {
             console.log(err)
         })
     },
+    updateChecked({commit}, ids) {
+        axios.post('/to-do-list/update-checked', ids)
+            .then(res => {
+                commit('UPDATE_CHECKED', res.data)
+            }).catch(err => {
+            console.log(err)
+        })
+    },
     deletePost({commit}, post) {
         axios.delete(`/to-do-list/post/${post}`)
             .then(res => {
