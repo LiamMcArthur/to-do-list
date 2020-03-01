@@ -9,13 +9,23 @@ use Modules\ToDoList\Entities\ToDoList;
 
 class ToDoListController extends Controller
 {
+    protected $todolist;
+
+    /**
+     * Instantiate a new ToDoListController instance
+     */
+    public function __construct()
+    {
+        $this->todolist = ToDoList::class;
+    }
+
     /**
      * Get all items from the resource.
      * @return Response
      */
     public function index()
     {
-        $allToDoLists = ToDoList::all();
+        $allToDoLists = $this->todolist::all();
         return response()->json($allToDoLists);
     }
 
@@ -25,7 +35,7 @@ class ToDoListController extends Controller
      */
     public function getCheckedItems()
     {
-        $checkedItems = ToDoList::checked();
+        $checkedItems = $this->todolist::checked();
         return $checkedItems->get()->pluck('id')->toArray();
     }
 
@@ -41,18 +51,18 @@ class ToDoListController extends Controller
         if ($input && count($input) > 0) {
 
             // First, set status to 1 for all checked items
-            ToDoList::whereIn('id', $input)->update([
+            $this->todolist::whereIn('id', $input)->update([
                 'status' => 1
             ]);
 
             // Then, set all other items to zero (unchecked)
-            ToDoList::whereNotIn('id', $input)->update([
+            $this->todolist::whereNotIn('id', $input)->update([
                 'status' => 0
             ]);
 
         } else {
             // If no values exist, set all to zero (unchecked)
-            ToDoList::query()->update([
+            $this->todolist::query()->update([
                 'status' => 0
             ]);
         }
@@ -66,7 +76,7 @@ class ToDoListController extends Controller
     public function store(Request $request)
     {
         if ($request->input('input')) {
-            ToDoList::create([
+            $this->todolist::create([
                 'content' => $request->input('input')
             ]);
         }
@@ -79,7 +89,7 @@ class ToDoListController extends Controller
      */
     public function delete($id)
     {
-        $toDoList = ToDoList::find($id);
+        $toDoList = $this->todolist::find($id);
         if ($toDoList) {
             $toDoList->delete();
             return response()->json(['Successfully deleted!']);
