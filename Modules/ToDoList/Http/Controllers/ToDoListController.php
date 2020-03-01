@@ -31,7 +31,8 @@ class ToDoListController extends Controller
 
     /**
      * Update all checked item statuses
-     * @return Response
+     * @param Request $request
+     * @return void
      */
     public function updateCheckedItems(Request $request)
     {
