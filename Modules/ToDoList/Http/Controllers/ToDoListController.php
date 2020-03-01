@@ -50,6 +50,11 @@ class ToDoListController extends Controller
                 'status' => 0
             ]);
 
+        } else {
+            // If no values exist, set all to zero (unchecked)
+            ToDoList::query()->update([
+                'status' => 0
+            ]);
         }
     }
 
