@@ -34,6 +34,11 @@
             this.$store.dispatch('fetchPosts');
             this.$store.dispatch('fetchChecked');
 
+            // TODO: Dynamically assign values to list data property through Vuex store
+            // Ideally, we need to copy the values from the fetchChecked dispatch
+            // and assign them to this.list data property. For some reason though,
+            // This isn't working - so we're going to forcefully assign through
+            // another Axios request without using the store.
             axios.get('/to-do-list/get-checked')
                 .then(res => {
                     this.list = res.data;
@@ -48,6 +53,7 @@
                 this.$nextTick(() => {
                     this.$store.dispatch('fetchPosts');
                 });
+                this.input = '';
 
             },
             deletePost(post) {
